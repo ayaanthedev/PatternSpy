@@ -16,7 +16,7 @@ function loadLogs() {
 }
 
 // Function to add new log
-document.getElementById("habitForm").addEventListener("submit", function(e){
+document.getElementById("habitForm").addEventListener("submit", function (e) {
     e.preventDefault();
 
     const date = document.getElementById("date").value;
