@@ -37,14 +37,28 @@ jobs:
           echo "Changed files (porcelain):" && git status --porcelain || true
           echo "Diff names:" && git --no-pager diff --name-only || true
 
-      - name: Commit and push if changed
+      - name: Commit and push if changed (exclude workflows)
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add -A
-          if [ -n "$(git status --porcelain)" ]; then
-            git commit -m "chore: auto format"
-            git push origin HEAD
+
+          # gather changed files (one per line)
+          changed_files=$(git status --porcelain | sed -E 's/^.{3}//' || true)
+
+          if [ -n "$changed_files" ]; then
+            # add all changed files except anything under .github/workflows
+            echo "$changed_files" | grep -v '^.github/workflows/' | while IFS= read -r f; do
+              [ -n "$f" ] || continue
+              git add -- "$f"
+            done
+
+            # commit only if there are staged changes (this avoids the workflow-update rejection)
+            if [ -n "$(git diff --cached --name-only)" ]; then
+              git commit -m "chore: auto format"
+              git push origin HEAD
+            else
+              echo "No commitable changes (only workflow files changed or nothing to add)"
+            fi
           else
             echo "No changes to commit"
           fi
