@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Habit Tracker</title>
+  <style>
+    table, th, td {
+      border: 1px solid black;
+      border-collapse: collapse;
+      padding: 5px;
+    }
+    table {
+      width: 100%;
+      margin-top: 20px;
+    }
+    input {
+      margin: 5px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Daily Habit Tracker</h1>
+
+<form id="habitForm">
+  <input type="date" id="date" required>
+  <input type="text" id="habit" placeholder="Habit Name" required>
+  <input type="number" id="timeSpent" placeholder="Time Spent (hours)" step="0.1" required>
+  <button type="submit">Add</button>
+</form>
+
+<table id="habitTable">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Habit</th>
+      <th>Time Spent (hours)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Habit logs will appear here -->
+  </tbody>
+</table>
+
+<script src="script.js"></script>
+</body>
+</html>
