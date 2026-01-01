@@ -24,6 +24,16 @@ jobs:
       - name: Format JS if present
         run: prettier --write "**/*.js" || true
 
+      - name: Format Code
+        run: prettier --write .
+
+      - name: Commit Changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git commit -m "Format code" || echo "No changes to commit"
+
       - name: Auto commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
