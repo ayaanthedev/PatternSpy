@@ -1,4 +1,4 @@
-name: Auto Format 
+name: Auto Format
 
 on:
   push:
@@ -13,22 +13,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout repo
       - uses: actions/checkout@v4
 
-      # 2. Install Prettier globally
-      - run: npm install -g prettier
+      - name: Install Prettier
+        run: npm install -g prettier
 
-      # 3. Run Prettier with parser overrides for inline CSS
-      - run: |
-          prettier --write "**/*.html" --parser html
-          prettier --write "**/*.js" --parser babel
-          prettier --write "**/*.css" --parser css
+      - name: Format HTML (inline CSS + JS included)
+        run: prettier --write "**/*.html"
 
-      # 4. Commit formatted files
-      - uses: stefanzweifel/git-auto-commit-action@v5
+      - name: Format JS if present
+        run: prettier --write "**/*.js" || true
+
+      - name: Auto commit changes
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "chore: auto-format code"
-          branch: main
-          file_pattern: "**/*.{html,css,js}"
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          commit_message: "chore: auto format"
+          file_pattern: "**/*.{html,js}"
