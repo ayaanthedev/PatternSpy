@@ -1,30 +1,30 @@
-name: Format Code
+name: Auto Format and Commit
 
 on:
   push:
     branches:
       - main
 
+permissions:
+  contents: write
+
 jobs:
   format:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout code
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
-      # Step 2: Run Prettier using the GitHub Action
-      - name: Format HTML/CSS/JS
-        uses: creyD/prettier_action@v4
-        with:
-          prettier_options: "--write '**/*.{html,css,js}'"
+      - name: Install Prettier
+        run: npm install -g prettier
 
-      # Step 3: Commit & Push changes automatically
-      - name: Auto Commit Formatted Code
-        uses: stefanzweifel/git-auto-commit-action@v4
+      - name: Format files
+        run: |
+          prettier --write "**/*.{html,css,js}"
+
+      - name: Commit formatted files
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Auto-format code via Prettier"
-          branch: main
+          commit_message: "chore: auto format"
           file_pattern: "**/*.{html,css,js}"
-          github_token: ${{ secrets.GITHUB_TOKEN }}
