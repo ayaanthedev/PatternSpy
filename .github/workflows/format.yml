@@ -14,6 +14,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
 
       - name: Install Prettier
         run: npm install -g prettier
@@ -27,15 +30,21 @@ jobs:
       - name: Format Code
         run: prettier --write .
 
-      - name: Commit Changes
+      - name: Debug git state
+        run: |
+          echo "Current ref: $(git rev-parse --abbrev-ref HEAD)"
+          echo "Commit info:" && git --no-pager log -1 --pretty=oneline || true
+          echo "Changed files (porcelain):" && git status --porcelain || true
+          echo "Diff names:" && git --no-pager diff --name-only || true
+
+      - name: Commit and push if changed
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add .
-          git commit -m "Format code" || echo "No changes to commit"
-
-      - name: Auto commit changes
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "chore: auto format"
-          file_pattern: "**/*.{html,js}"
+          git add -A
+          if [ -n "$(git status --porcelain)" ]; then
+            git commit -m "chore: auto format"
+            git push origin HEAD
+          else
+            echo "No changes to commit"
+          fi
