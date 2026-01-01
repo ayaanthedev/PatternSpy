@@ -6,22 +6,25 @@ on:
       - main
 
 jobs:
-  prettier:
+  format:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
-      - name: Install Node.js
-        uses: actions/setup-node@v3
+      # Step 1: Checkout code
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # Step 2: Run Prettier using the GitHub Action
+      - name: Format HTML/CSS/JS
+        uses: creyD/prettier_action@v4
         with:
-          node-version: '20'
-      - name: Install Prettier
-        run: npm install --save-dev prettier
-      - name: Format Files
-        run: npx prettier --write "**/*.{html,css,js,json,md}"
-      - name: Commit Changes
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add .
-          git commit -m "Auto-format code via Prettier" || echo "No changes to commit"
-          git push
+          prettier_options: "--write '**/*.{html,css,js}'"
+
+      # Step 3: Commit & Push changes automatically
+      - name: Auto Commit Formatted Code
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Auto-format code via Prettier"
+          branch: main
+          file_pattern: "**/*.{html,css,js}"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
