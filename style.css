@@ -1,25 +1,25 @@
 :root {
     /* Color Palette - Indigo & Light Steel Blue */
-    --primary: #2E0C99;
+    --primary: #2e0c99;
     --primary-dark: #220870;
-    --primary-light: #4A1FBD;
-    --secondary: #AEC8D5;
-    --secondary-dark: #8BA9BA;
-    --accent: #6B42D6;
-    --accent-dark: #5232B5;
-    
-    --bg-primary: #0D0320;
-    --bg-secondary: #1A0945;
-    --bg-tertiary: #250D5C;
-    --bg-card: #1C0A42;
-    
-    --text-primary: #F0F4FF;
-    --text-secondary: #AEC8D5;
-    --text-muted: #7A8B9C;
-    
+    --primary-light: #4a1fbd;
+    --secondary: #aec8d5;
+    --secondary-dark: #8ba9ba;
+    --accent: #6b42d6;
+    --accent-dark: #5232b5;
+
+    --bg-primary: #0d0320;
+    --bg-secondary: #1a0945;
+    --bg-tertiary: #250d5c;
+    --bg-card: #1c0a42;
+
+    --text-primary: #f0f4ff;
+    --text-secondary: #aec8d5;
+    --text-muted: #7a8b9c;
+
     --border: rgba(46, 12, 153, 0.3);
     --border-focus: rgba(174, 200, 213, 0.5);
-    
+
     --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
     --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.4);
     --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.5);
@@ -33,7 +33,7 @@
 }
 
 body {
-    font-family: 'DM Sans', sans-serif;
+    font-family: "DM Sans", sans-serif;
     background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
     color: var(--text-primary);
     min-height: 100vh;
@@ -43,7 +43,7 @@ body {
 }
 
 body::before {
-    content: '';
+    content: "";
     position: fixed;
     top: -50%;
     right: -50%;
@@ -56,7 +56,7 @@ body::before {
 }
 
 body::after {
-    content: '';
+    content: "";
     position: fixed;
     bottom: -50%;
     left: -50%;
@@ -69,7 +69,8 @@ body::after {
 }
 
 @keyframes float {
-    0%, 100% {
+    0%,
+    100% {
         transform: translate(0, 0) rotate(0deg);
     }
     33% {
@@ -103,7 +104,7 @@ body::after {
 }
 
 .header::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -129,7 +130,7 @@ body::after {
 }
 
 .title {
-    font-family: 'Syne', sans-serif;
+    font-family: "Syne", sans-serif;
     font-size: 3.5rem;
     font-weight: 800;
     color: var(--text-primary);
@@ -151,7 +152,7 @@ body::after {
 }
 
 .current-date {
-    font-family: 'Syne', sans-serif;
+    font-family: "Syne", sans-serif;
     font-size: 1.8rem;
     font-weight: 700;
     color: var(--secondary);
@@ -206,7 +207,7 @@ section {
 }
 
 .section-title {
-    font-family: 'Syne', sans-serif;
+    font-family: "Syne", sans-serif;
     font-size: 1.8rem;
     font-weight: 700;
     color: var(--text-primary);
@@ -253,7 +254,7 @@ section {
     border-radius: 12px;
     color: var(--text-primary);
     font-size: 1rem;
-    font-family: 'DM Sans', sans-serif;
+    font-family: "DM Sans", sans-serif;
     transition: all 0.3s ease;
     outline: none;
 }
@@ -277,7 +278,7 @@ section {
     color: var(--bg-primary);
     font-size: 1rem;
     font-weight: 600;
-    font-family: 'DM Sans', sans-serif;
+    font-family: "DM Sans", sans-serif;
     cursor: pointer;
     transition: all 0.3s ease;
     display: flex;
@@ -289,7 +290,7 @@ section {
 }
 
 .btn-primary::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: -100%;
@@ -329,7 +330,7 @@ section {
     color: var(--secondary);
     font-size: 0.9rem;
     font-weight: 600;
-    font-family: 'DM Sans', sans-serif;
+    font-family: "DM Sans", sans-serif;
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -457,39 +458,39 @@ tbody td {
         flex-direction: column;
         gap: 25px;
     }
-    
+
     .date-display {
         width: 100%;
         text-align: center;
     }
-    
+
     .title {
         font-size: 2.5rem;
     }
-    
+
     .form-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .btn-primary {
         width: 100%;
         justify-content: center;
     }
-    
+
     .logs-header {
         flex-direction: column;
         gap: 15px;
         align-items: flex-start;
     }
-    
+
     .section-title {
         font-size: 1.5rem;
     }
-    
+
     table {
         font-size: 0.85rem;
     }
-    
+
     thead th,
     tbody td {
         padding: 12px 8px;
