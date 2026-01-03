@@ -61,6 +61,58 @@ function aggregateDataByDateAndHabit(logs) {
     return Object.values(aggregated);
 }
 
+// --- Streak helpers ---
+function getUniqueLoggedDates(logs) {
+    const set = new Set(logs.map(l => l.date));
+    return Array.from(set).sort();
+}
+
+function computeStreaksFromDates(dates) {
+    const dateSet = new Set(dates);
+
+    // compute longest streak by scanning sequence starts
+    let longest = 0;
+    for (const d of dates) {
+        const prev = new Date(d + "T00:00:00");
+        prev.setDate(prev.getDate() - 1);
+        const prevStr = prev.toISOString().split("T")[0];
+        if (!dateSet.has(prevStr)) {
+            // start of a sequence
+            let count = 0;
+            let cur = new Date(d + "T00:00:00");
+            while (dateSet.has(cur.toISOString().split("T")[0])) {
+                count++;
+                cur.setDate(cur.getDate() + 1);
+            }
+            if (count > longest) longest = count;
+        }
+    }
+
+    // compute current streak (from today backwards)
+    let current = 0;
+    let cursor = new Date();
+    while (true) {
+        const cursorStr = cursor.toISOString().split("T")[0];
+        if (dateSet.has(cursorStr)) {
+            current++;
+            cursor.setDate(cursor.getDate() - 1);
+        } else {
+            break;
+        }
+    }
+
+    return { current, longest };
+}
+
+function updateStreakDisplay(logs) {
+    const dates = getUniqueLoggedDates(logs);
+    const { current, longest } = computeStreaksFromDates(dates);
+    const currentEl = document.getElementById("currentStreak");
+    const longestEl = document.getElementById("longestStreak");
+    if (currentEl) currentEl.textContent = current;
+    if (longestEl) longestEl.textContent = longest;
+}
+
 // Function to prepare weekly chart data
 function prepareWeeklyChartData(logs) {
     const weekDates = getWeekDates();
@@ -267,6 +319,8 @@ function loadLogs() {
 
     // Update chart
     renderWeeklyChart(logs);
+    // Update streak display
+    updateStreakDisplay(logs);
 }
 
 // Function to format date for display
@@ -307,7 +361,7 @@ document.getElementById("habitForm").addEventListener("submit", function (e) {
     const submitBtn = document.querySelector(".btn-primary");
     const originalText = submitBtn.innerHTML;
     submitBtn.innerHTML = '<span class="btn-text">Added! ✓</span>';
-    submitBtn.style.background = "linear-gradient(135deg, #10B981 0%, #059669 100%)";
+    submitBtn.style.background = "#10B981";
 
     setTimeout(() => {
         submitBtn.innerHTML = originalText;
